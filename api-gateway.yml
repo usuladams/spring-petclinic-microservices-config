@@ -1,5 +1,6 @@
 zuul:
   prefix: /api
+  stripPrefix: true
   ignoredServices: '*'
   routes:
     vets-service: /vet/**
