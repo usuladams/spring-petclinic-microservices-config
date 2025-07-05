@@ -1,12 +1,4 @@
-spring:
-  application:
-    name: api-gateway
-  profiles:
-    active: docker
-  messages:
-    basename: messages/messages
-    
-zuul:
+ zuul:
   prefix: /api
   stripPrefix: true  
   ignoredServices: '*'
