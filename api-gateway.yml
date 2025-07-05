@@ -16,7 +16,7 @@ server:
     min-response-size: 2048
 
 # Internationalization
-#spring.messages.basename: messages/messages
+spring.messages.basename: messages/messages
 
 ---
 spring:
