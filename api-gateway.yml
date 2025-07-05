@@ -1,12 +1,36 @@
-zuul:
-  prefix: /api
-  stripPrefix: true
-  ignoredServices: '*'
+spring.cloud.gateway:
+  discovery:
+    locator:
+      enabled: true
+      lower-case-service-id: true
   routes:
-    vets-service: /vet/**
-    visits-service: /visit/**
-    customers-service: /customer/**
-    api-gateway: /gateway/**
+    - id: vets-service
+      uri: lb://vets-service
+      predicates:
+        - Path=/api/vet/**
+      filters:
+        - StripPrefix=2
+
+    - id: visits-service
+      uri: lb://visits-service
+      predicates:
+        - Path=/api/visit/**
+      filters:
+        - StripPrefix=2
+
+    - id: customers-service
+      uri: lb://customers-service
+      predicates:
+        - Path=/api/customer/**
+      filters:
+        - StripPrefix=2
+
+    - id: api-gateway
+      uri: lb://api-gateway
+      predicates:
+        - Path=/api/gateway/**
+      filters:
+        - StripPrefix=2
 
 server:
   port: 8080
@@ -15,19 +39,58 @@ server:
     mime-types: application/json,text/css,application/javascript
     min-response-size: 2048
 
-# Internationalization
-spring.messages.basename: messages/messages
-
 ---
 spring:
+  application:
+    name: api-gateway
+  messages:
+    basename: messages/messages
   config:
     activate:
       on-profile: docker
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://discovery-server:8761/eureka/
+
 management:
   zipkin:
     tracing:
       endpoint: http://tracing-server:9411/api/v2/spans
+
+---
+
+# zuul:
+#   prefix: /api
+#   stripPrefix: true
+#   ignoredServices: '*'
+#   routes:
+#     vets-service: /vet/**
+#     visits-service: /visit/**
+#     customers-service: /customer/**
+#     api-gateway: /gateway/**
+
+# server:
+#   port: 8080
+#   compression:
+#     enabled: true
+#     mime-types: application/json,text/css,application/javascript
+#     min-response-size: 2048
+
+# # Internationalization
+# spring.messages.basename: messages/messages
+
+# ---
+# spring:
+#   config:
+#     activate:
+#       on-profile: docker
+# eureka:
+#   client:
+#     serviceUrl:
+#       defaultZone: http://discovery-server:8761/eureka/
+# management:
+#   zipkin:
+#     tracing:
+#       endpoint: http://tracing-server:9411/api/v2/spans
