@@ -1,5 +1,14 @@
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: docker
+  messages:
+    basename: messages/messages
+    
 zuul:
   prefix: /api
+  stripPrefix: true  
   ignoredServices: '*'
   routes:
     vets-service: /vet/**
@@ -15,7 +24,7 @@ server:
     min-response-size: 2048
 
 # Internationalization
-spring.messages.basename: messages/messages
+#spring.messages.basename: messages/messages
 
 ---
 spring:
