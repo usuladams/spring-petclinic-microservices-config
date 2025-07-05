@@ -3,13 +3,13 @@
 
 eureka:
   instance:
-    #hostname: localhost
-    hostname: discovery-server
+    hostname: localhost
+    #hostname: discovery-server
   # standalone mode
   client:
     registerWithEureka: false
     fetchRegistry: false
     serviceUrl:
-      #defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-      defaultZone: http://discovery-server:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      #defaultZone: http://discovery-server:8761/eureka/
 
